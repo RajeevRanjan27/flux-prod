@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../base/podinfo
+patches:
+  - path: podinfo-values.yaml
+    target:
+      kind: HelmRelease
+      name: .*-helm-release
+     version: v2beta1
+    patch: | -
+      - op: add
+        path: /spec/targetNamespace
+        value: deployments
+      - op: replace
+        path: /metadata/namespace
+        value: deployments
